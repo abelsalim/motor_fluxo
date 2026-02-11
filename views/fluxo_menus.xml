@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        id="menu_motor_fluxo_root" 
+        name="Motor de Fluxos"
+        web_icon="base,static/description/settings.png"
+        groups="motor_fluxo.group_fluxo_manager"
+    />
+
+    <menuitem
+        id="menu_fluxo_config"
+        name="Configurações"
+        parent="menu_motor_fluxo_root"
+        sequence="10"
+    />
+</odoo>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_fluxo_operacao_list" model="ir.ui.view">
+        <field name="name">fluxo.operacao.list</field>
+        <field name="model">fluxo.operacao</field>
+        <field name="arch" type="xml">
+            <list string="Operações">
+                <field name="name"/>
+                <field name="modelo_id"/>
+                <field name="etapa_inicial_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_fluxo_operacao_form" model="ir.ui.view">
+        <field name="name">fluxo.operacao.form</field>
+        <field name="model">fluxo.operacao</field>
+        <field name="arch" type="xml">
+            <form string="Configuração de Operação">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Ex: Venda Rápida"/></h1>
+                    </div>
+
+                    <group>
+                        <field name="modelo_id"/>
+                        <field
+                            name="etapa_inicial_id"
+                            options="{'no_create': True}"
+                            domain="[('modelo_id', '=', modelo_id)]"
+                        />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_fluxo_operacao" model="ir.actions.act_window">
+        <field name="name">Operações</field>
+        <field name="res_model">fluxo.operacao</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_fluxo_operacao_act"
+        parent="menu_fluxo_config"
+        action="action_fluxo_operacao"
+        sequence="2"
+    />
+</odoo>

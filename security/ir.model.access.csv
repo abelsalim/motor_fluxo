@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_fluxo_etapa_user,fluxo.etapa.user,model_fluxo_etapa,base.group_user,1,0,0,0
+access_fluxo_etapa_manager,fluxo.etapa.manager,model_fluxo_etapa,motor_fluxo.group_fluxo_manager,1,1,1,1
+
+access_fluxo_operacao_user,fluxo.operacao.user,model_fluxo_operacao,base.group_user,1,0,0,0
+access_fluxo_operacao_manager,fluxo.operacao.manager,model_fluxo_operacao,motor_fluxo.group_fluxo_manager,1,1,1,1
+
+access_fluxo_historico_user,fluxo.historico.user,model_fluxo_historico,base.group_user,1,0,1,0
+access_fluxo_historico_manager,fluxo.historico.manager,model_fluxo_historico,motor_fluxo.group_fluxo_manager,1,1,1,1
+
+access_fluxo_demo_tarefa_user,fluxo.demo.tarefa.user,model_fluxo_demo_tarefa,base.group_user,1,0,1,0
+access_fluxo_demo_tarefa_manager,fluxo.demo.tarefa.manager,model_fluxo_demo_tarefa,motor_fluxo.group_fluxo_manager,1,1,1,1

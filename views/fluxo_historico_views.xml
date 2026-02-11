@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_fluxo_historico_tree" model="ir.ui.view">
+            <field name="name">fluxo.historico.tree</field>
+            <field name="model">fluxo.historico</field>
+            <field name="arch" type="xml">
+                <list string="Auditoria de Fluxo" create="false" edit="false" delete="false" default_order="data_entrada desc">
+                    <field name="data_entrada"/>
+                    <field name="res_model"/>
+                    <field name="res_id"/>
+                    <field name="etapa_id"/>
+                    <field name="usuario_id"/>
+                    <field name="duracao_horas" widget="float_time"/>
+                    <field name="data_saida"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_fluxo_historico_search" model="ir.ui.view">
+            <field name="name">fluxo.historico.search</field>
+            <field name="model">fluxo.historico</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Histórico">
+                    <field name="res_model"/>
+                    <field name="etapa_id"/>
+                    <field name="usuario_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_fluxo_historico" model="ir.actions.act_window">
+            <field name="name">Auditoria Geral</field>
+            <field name="res_model">fluxo.historico</field>
+            <field name="view_mode">tree,search</field>
+            <field name="view_id" ref="view_fluxo_historico_tree"/>
+        </record>
+
+        <menuitem
+            id="menu_fluxo_historico_act"
+            parent="menu_motor_fluxo_root"
+            action="action_fluxo_historico"
+            sequence="50"
+        />
+
+    </data>
+</odoo>

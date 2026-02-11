@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_fluxo_etapa_list" model="ir.ui.view">
+        <field name="name">fluxo.etapa.list</field>
+        <field name="model">fluxo.etapa</field>
+        <field name="arch" type="xml">
+            <list string="Etapas">
+                <field name="sequencia" widget="handle"/>
+                <field name="name"/>
+                <field name="modelo_id"/>
+                <field name="grupos_permitidos_ids" widget="many2many_tags"/>
+                <field name="etapa_final" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_fluxo_etapa_form" model="ir.ui.view">
+        <field name="name">fluxo.etapa.form</field>
+        <field name="model">fluxo.etapa</field>
+        <field name="arch" type="xml">
+            <form string="Configuração de Etapa">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Ex: Em Análise"/></h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="modelo_id"/>
+                            <field name="sequencia"/>
+                        </group>
+
+                        <group>
+                            <field name="recolhido"/>
+                            <field name="etapa_final"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Fluxo de etapas">
+                            <group string="Etapas seguintes">
+                                <field
+                                    name="proxima_etapa_ids"
+                                    widget="many2many_tags"
+                                    options="{'no_create_edit': True}"
+                                    placeholder="Selecione as etapas que podem vir após esta..."
+                                    domain="[('modelo_id', '=', modelo_id), ('id', '!=', id)]"
+                                />
+                            </group>
+                        </page>
+
+                        <page string="Segurança">
+                            <group>
+                                <field name="grupos_permitidos_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                                <p class="text-muted" colspan="2">
+                                    * Deixe vazio para permitir que qualquer usuário mova para esta etapa.
+                                </p>
+                            </group>
+                        </page>
+
+                        <page string="Automação Python">
+                            <separator string="Pré-validação (Antes de Entrar)"/>
+                            <p class="text-muted">Use <code>registro</code> para acessar o objeto atual. Ex: <code>if registro.total &lt; 0: raise UserError('Erro')</code></p>
+                            <field name="codigo_antes" widget="ace" options="{'mode': 'python'}"/>
+
+                            <separator string="Pós-processamento (Depois de Entrar)"/>
+                            <p class="text-muted">Ex: <code>registro.message_post(body='Entrou na etapa!')</code></p>
+                            <field name="codigo_depois" widget="ace" options="{'mode': 'python'}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_fluxo_etapa" model="ir.actions.act_window">
+        <field name="name">Etapas</field>
+        <field name="res_model">fluxo.etapa</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crie a primeira etapa do seu fluxo!
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_fluxo_etapa_act"
+        parent="menu_fluxo_config"
+        action="action_fluxo_etapa"
+        sequence="1"
+    />
+</odoo>

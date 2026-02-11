@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_fluxo_demo_tarefa" model="ir.actions.act_window">
+        <field name="name">Tarefas Demo</field>
+        <field name="res_model">fluxo.demo.tarefa</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crie sua primeira tarefa de teste!
+            </p>
+            <p>
+                Certifique-se de ter criado <b>Etapas</b> e <b>Operações</b> antes.
+            </p>
+        </field>
+    </record>
+
+    <record id="view_fluxo_demo_tarefa_list" model="ir.ui.view">
+        <field name="name">fluxo.demo.tarefa.list</field>
+        <field name="model">fluxo.demo.tarefa</field>
+        <field name="arch" type="xml">
+
+            <list string="Tarefas">
+                <field name="name"/>
+                <field name="operacao_id"/>
+                <field name="prioridade" widget="priority"/>
+                <field name="etapa_id" widget="badge" decoration-info="1"/>
+            </list>
+
+        </field>
+    </record>
+
+    <record id="view_fluxo_demo_tarefa_form" model="ir.ui.view">
+        <field name="name">fluxo.demo.tarefa.form</field>
+        <field name="model">fluxo.demo.tarefa</field>
+        <field name="arch" type="xml">
+            <form string="Tarefa">
+
+                <header>
+                    <field name="etapas_disponiveis_ids" invisible="1"/>
+                    <field
+                        name="etapa_id"
+                        widget="statusbar"
+                        options="{'clickable': '1'}"
+                        domain="[('id', 'in', etapas_disponiveis_ids)]"
+                    />
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Ex: Validar Motor de Fluxo"/></h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="operacao_id" options="{'no_create': True}"/>
+                            <field name="prioridade" widget="priority"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Descrição">
+                            <field name="descricao" placeholder="Detalhes da tarefa..."/>
+                        </page>
+
+                        <page string="Auditoria e Histórico">
+                            <field name="historico_ids" readonly="1">
+                                <list decoration-muted="data_saida">
+                                    <field name="data_entrada"/>
+                                    <field name="etapa_id"/>
+                                    <field name="usuario_id"/>
+                                    <field name="duracao_horas" widget="float_time"/>
+                                    <field name="data_saida" column_invisible="1"/>
+                                    <button
+                                        name="acao_voltar_para_etapa"
+                                        type="object"
+                                        icon="fa-undo"
+                                        title="Voltar para esta etapa"
+                                        class="btn-secondary btn-sm"
+                                    />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_fluxo_demo"
+        name="Demonstração"
+        parent="menu_motor_fluxo_root"
+        sequence="5"
+    />
+
+    <menuitem
+        id="menu_fluxo_demo_tarefa"
+        name="Tarefas de Teste"
+        parent="menu_fluxo_demo"
+        action="action_fluxo_demo_tarefa"
+        sequence="1"
+    />
+
+</odoo>
