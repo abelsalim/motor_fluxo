@@ -7,10 +7,12 @@
         <field name="arch" type="xml">
             <list string="Etapas">
                 <field name="sequencia" widget="handle"/>
-                <field name="name"/>
+                <field name="nome"/>
                 <field name="modelo_id"/>
+                <field name="proxima_etapa_ids" widget="many2many_tags"/>
                 <field name="grupos_permitidos_ids" widget="many2many_tags"/>
-                <field name="etapa_final" widget="boolean_toggle"/>
+                <field name="etapa_conclusao" widget="boolean_toggle"/>
+                <field name="etapa_cancelamento" widget="boolean_toggle"/>
             </list>
         </field>
     </record>
@@ -22,8 +24,8 @@
             <form string="Configuração de Etapa">
                 <sheet>
                     <div class="oe_title">
-                        <label for="name" class="oe_edit_only"/>
-                        <h1><field name="name" placeholder="Ex: Em Análise"/></h1>
+                        <label for="nome" class="oe_edit_only"/>
+                        <h1><field name="nome" placeholder="Ex: Em Análise"/></h1>
                     </div>
 
                     <group>
@@ -33,21 +35,27 @@
                         </group>
 
                         <group>
-                            <field name="recolhido"/>
-                            <field name="etapa_final"/>
+                            <field name="etapa_conclusao" invisible="etapa_cancelamento"/>
+                            <field name="etapa_cancelamento" invisible="etapa_conclusao"/>
                         </group>
                     </group>
 
                     <notebook>
                         <page string="Fluxo de etapas">
-                            <group string="Etapas seguintes">
+                            <group col="4" string="Etapas seguintes">
                                 <field
+                                    nolabel="1"
+                                    colspan="4"
                                     name="proxima_etapa_ids"
-                                    widget="many2many_tags"
                                     options="{'no_create_edit': True}"
                                     placeholder="Selecione as etapas que podem vir após esta..."
-                                    domain="[('modelo_id', '=', modelo_id), ('id', '!=', id)]"
-                                />
+                                    domain="[('modelo_id', '=', modelo_id), ('id', '!=', id)]">
+                                    <list>
+                                        <field name="sequencia" widget="handle"/>
+                                        <field name="nome"/>
+                                        <field name="proxima_etapa_ids" widget="many2many_tags"/>
+                                    </list>
+                                </field>
                             </group>
                         </page>
 

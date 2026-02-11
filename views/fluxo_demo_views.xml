@@ -67,9 +67,9 @@
                         <page string="Auditoria e Histórico">
                             <field name="historico_ids" readonly="1">
                                 <list decoration-muted="data_saida">
-                                    <field name="data_entrada"/>
                                     <field name="etapa_id"/>
-                                    <field name="usuario_id"/>
+                                    <field name="usuario_id" string="Alterado por"/>
+                                    <field name="data_entrada"/>
                                     <field name="duracao_horas" widget="float_time"/>
                                     <field name="data_saida" column_invisible="1"/>
                                     <button

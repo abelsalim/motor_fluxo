@@ -11,10 +11,12 @@ class FluxoEtapa(models.Model):
 
     _order = 'sequencia, id'
 
+    _rec_name = 'nome'
+
     # --- Odoo Fields ---
 
-    name = fields.Char(
-        string='Nome da Etapa',
+    nome = fields.Char(
+        string='Etapa',
         required=True,
         translate=True
     )
@@ -38,14 +40,14 @@ class FluxoEtapa(models.Model):
         index=True
     )
 
-    recolhido = fields.Boolean(
-        string='Recolhido no Kanban?',
-        default=False
-    )
-
-    etapa_final = fields.Boolean(
+    etapa_conclusao = fields.Boolean(
         string='Etapa de Conclusão?',
         help='Indica se o processo encerra aqui.'
+    )
+
+    etapa_cancelamento = fields.Boolean(
+        string='Etapa de Cancelamento?',
+        help='Indica se o processo foi cancelado aqui.'
     )
 
     grupos_permitidos_ids = fields.Many2many(
