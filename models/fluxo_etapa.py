@@ -6,11 +6,8 @@ class FluxoEtapa(models.Model):
     # --- Odoo Atributos ---
 
     _name = 'fluxo.etapa'
-
     _description = 'Configuração da Etapa'
-
     _order = 'sequencia, id'
-
     _rec_name = 'nome'
 
     # --- Odoo Fields ---
@@ -84,3 +81,24 @@ class FluxoEtapa(models.Model):
     obs = fields.Char(
         string='Observação'
     )
+
+    # --- SQL Constraints ---
+
+    _sql_constraints = [
+        (
+            'nome_uniq',
+            'unique (nome)',
+            'Já existe uma etapa com este nome!'
+        )
+    ]
+
+    # --- Métodos  Returns ---
+
+    def copy(self, default=None):
+
+        default = dict(default or {})
+
+        if 'nome' not in default:
+            default['nome'] = f"{self.nome} (Cópia)"
+
+        return super(FluxoEtapa, self).copy(default)

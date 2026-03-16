@@ -25,8 +25,8 @@
         'views/fluxo_etapa_views.xml',
         'views/fluxo_operacao_views.xml',
         'views/fluxo_demo_views.xml',
-        # 'views/fluxo_historico_views.xml', (Se houver)
+        # 'views/fluxo_historico_views.xml'
     ],
-    'application': False,
+    'application': True,
     'installable': True,
 }
