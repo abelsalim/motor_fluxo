@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <list string="Operações">
                 <field name="name"/>
-                <field name="modelo_id"/>
+                <field name="model_id"/>
                 <field name="etapa_inicial_id"/>
             </list>
         </field>
@@ -24,13 +24,13 @@
                         <h1><field name="name" placeholder="Ex: Venda Rápida"/></h1>
                     </div>
 
-                    <group>
-                        <field name="modelo_id"/>
-                        <field
-                            name="etapa_inicial_id"
-                            options="{'no_create': True}"
-                            domain="[('modelo_id', '=', modelo_id)]"
-                        />
+                    <group col="4">
+                        <group colspan="2">
+                            <field name="etapa_inicial_id" options="{'no_create': True}" />
+                        </group>
+                        <group colspan="2">
+                            <field name="model_id" />
+                        </group>
                     </group>
                 </sheet>
             </form>

@@ -24,14 +24,14 @@ class FluxoBase(models.AbstractModel):
     operacao_id = fields.Many2one(
         comodel_name='fluxo.operacao',
         string='Operação',
-        # domain=lambda self: [('modelo_tecnico', '=', self._name)],
+        # domain=lambda self: [('model_name', '=', self._name)],
         tracking=True, index=True
     )
 
     etapa_id = fields.Many2one(
         comodel_name='fluxo.etapa',
         string='Etapa Atual',
-        # domain=lambda self: [('modelo_tecnico', '=', self._name)],
+        # domain=lambda self: [('model_name', '=', self._name)],
         tracking=True, index=True, copy=False,
         group_expand='_agrupar_etapas_kanban'
     )
@@ -152,7 +152,7 @@ class FluxoBase(models.AbstractModel):
     def _agrupar_etapas_kanban(self, stages, domain, order) -> models.BaseModel:
         return (
             self.env['fluxo.etapa']
-            .search([('modelo_tecnico', '=', self._name)], order=order)
+            .search([('model_name', '=', self._name)], order=order)
         )
 
     # --- Treatments Methods ---

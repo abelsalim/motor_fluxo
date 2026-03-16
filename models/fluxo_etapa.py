@@ -23,15 +23,15 @@ class FluxoEtapa(models.Model):
         default=10
     )
 
-    modelo_id = fields.Many2one(
+    model_id = fields.Many2one(
         comodel_name='ir.model',
         string='Modelo Alvo',
         required=True,
         ondelete='cascade'
     )
 
-    modelo_tecnico = fields.Char(
-        related='modelo_id.model',
+    model_name = fields.Char(
+        related='model_id.model',
         string='Modelo Técnico',
         store=True,
         index=True
@@ -75,7 +75,7 @@ class FluxoEtapa(models.Model):
         column1='etapa_atual_id',
         column2='proxima_etapa_id',
         string='Próximas Etapas Permitidas',
-        domain="[('modelo_id', '=', modelo_id)]"
+        domain="[('model_id', '=', model_id)]"
     )
 
     obs = fields.Char(

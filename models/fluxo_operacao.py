@@ -17,24 +17,21 @@ class FluxoOperacao(models.Model):
         translate=True
     )
 
-    modelo_id = fields.Many2one(
-        comodel_name='ir.model',
-        string='Modelo Alvo',
-        required=True,
-        ondelete='cascade'
+    model_id = fields.Many2one(
+        related='etapa_inicial_id.model_id',
+        store=True
     )
 
-    modelo_tecnico = fields.Char(
-        related='modelo_id.model',
+    model_name = fields.Char(
+        related='model_id.model',
         store=True,
         index=True
     )
 
     etapa_inicial_id = fields.Many2one(
-        'fluxo.etapa', 
+        comodel_name='fluxo.etapa',
         string='Etapa Inicial',
         required=True,
-        domain="[('modelo_id', '=', modelo_id)]",
         help=(
             "Ao selecionar esta operação, o registro irá automaticamente para "
             "esta etapa."
