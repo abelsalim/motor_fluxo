@@ -1,3 +1,5 @@
+from typing import Self
+
 from odoo import fields, models
 
 
@@ -92,13 +94,13 @@ class FluxoEtapa(models.Model):
         )
     ]
 
-    # --- Métodos  Returns ---
+    # --- Métodos  Odoo Core ---
 
-    def copy(self, default=None):
+    def copy(self: Self, default: dict | None = None) -> Self:
 
         default = dict(default or {})
 
         if 'nome' not in default:
             default['nome'] = f"{self.nome} (Cópia)"
 
-        return super(FluxoEtapa, self).copy(default)
+        return super().copy(default)

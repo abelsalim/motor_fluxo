@@ -6,10 +6,8 @@ class FluxoDemoTarefa(models.Model):
     # --- Odoo Atributos ---
 
     _name = 'fluxo.demo.tarefa'
-
-    _description = 'Tarefa de Demonstração do Fluxo'
-
     _inherit = ['fluxo.base']
+    _description = 'Tarefa de Demonstração do Fluxo'
 
     # --- Odoo Fields ---
 

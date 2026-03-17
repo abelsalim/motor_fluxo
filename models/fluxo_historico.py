@@ -1,3 +1,5 @@
+from typing import Self
+
 from odoo import api, fields, models
 
 
@@ -6,9 +8,7 @@ class FluxoHistorico(models.Model):
     # --- Odoo Atributos ---
 
     _name = 'fluxo.historico'
-
     _description = 'Histórico Detalhado do Fluxo'
-
     _order = 'data_entrada desc'
 
     # --- Odoo Fields ---
@@ -61,7 +61,7 @@ class FluxoHistorico(models.Model):
     # --- Métodos Computados ---
 
     @api.depends('data_entrada', 'data_saida')
-    def _calcula_duracao(self) -> None:
+    def _calcula_duracao(self: Self) -> None:
 
         for rec in self:
             if not rec.data_entrada or not rec.data_saida:
@@ -74,7 +74,7 @@ class FluxoHistorico(models.Model):
 
     # --- Métodos de Ação ---
 
-    def acao_voltar_para_etapa(self) -> dict[str, str]:
+    def acao_voltar_para_etapa(self: Self) -> dict[str, str]:
 
         self.ensure_one()
         registro_pai = self.env[str(self.res_model)].browse(self.res_id)

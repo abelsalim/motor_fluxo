@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Any, cast, Literal, TYPE_CHECKING
+from typing import Any, cast, Self, Literal, TYPE_CHECKING
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
@@ -16,7 +16,6 @@ class FluxoBase(models.AbstractModel):
     # --- Odoo Atributos ---
 
     _name = 'fluxo.base'
-
     _description = 'Base Abstrata para Workflow'
 
     # --- Odoo Fields ---
@@ -49,7 +48,7 @@ class FluxoBase(models.AbstractModel):
 
     # --- Métodos Odoo Core ---
 
-    def write(self, vals: dict[str, Any]) -> Literal[True]:
+    def write(self: Self, vals: dict[str, Any]) -> Literal[True]:
 
         if 'etapa_id' in vals:
             nova_etapa = cast(
@@ -71,7 +70,7 @@ class FluxoBase(models.AbstractModel):
 
                 self._fechar_log_historico(rec)
 
-        res = super(FluxoBase, self).write(vals)
+        res = super().write(vals)
 
         if 'etapa_id' in vals:
             nova_etapa = cast(
@@ -87,7 +86,7 @@ class FluxoBase(models.AbstractModel):
         return res
 
     @api.model_create_multi
-    def create(self, vals_list: list[dict[str, Any]]) -> FluxoBase:
+    def create(self: Self, vals_list: list[dict[str, Any]]) -> FluxoBase:
 
         for vals in vals_list:
             if vals.get('operacao_id') and not vals.get('etapa_id'):
@@ -113,7 +112,8 @@ class FluxoBase(models.AbstractModel):
 
     # --- Métodos Computados ---
 
-    def _computar_historico(self) -> None:
+    def _computar_historico(self: Self) -> None:
+
         for rec in self:
             rec.historico_ids = self.env['fluxo.historico'].search([
                 ('res_model', '=', rec._name),
@@ -123,7 +123,7 @@ class FluxoBase(models.AbstractModel):
     # --- Métodos Depends ---
 
     @api.depends('etapa_id', 'operacao_id')
-    def _compute_etapas_disponiveis(self):
+    def _compute_etapas_disponiveis(self: Self) -> None:
 
         for rec in self:
             if rec.etapa_id:
@@ -149,7 +149,12 @@ class FluxoBase(models.AbstractModel):
     # --- Métodos de Hook de Interface ---
 
     @api.model
-    def _agrupar_etapas_kanban(self, stages, domain, order) -> models.BaseModel:
+    def _agrupar_etapas_kanban(
+        self: Self,
+        _stages: models.Model,
+        _domain: list,
+        order: str
+    ) -> models.BaseModel:
         return (
             self.env['fluxo.etapa']
             .search([('model_name', '=', self._name)], order=order)
@@ -157,7 +162,7 @@ class FluxoBase(models.AbstractModel):
 
     # --- Treatments Methods ---
 
-    def _executar_python(self, codigo, registro) -> None:
+    def _executar_python(self: Self, codigo: str, registro: FluxoBase) -> None:
 
         local_dict = {
             'registro': registro,
@@ -172,7 +177,11 @@ class FluxoBase(models.AbstractModel):
         except Exception as e:
             raise UserError("Erro na automação de etapa: %s" % str(e))
 
-    def _criar_log_historico(self, registro, etapa_id) -> None:
+    def _criar_log_historico(
+            self: Self,
+            registro: FluxoBase,
+            etapa_id: int
+        ) -> None:
 
         self.env['fluxo.historico'].create({
             'res_model': registro._name,
@@ -181,7 +190,7 @@ class FluxoBase(models.AbstractModel):
             'data_entrada': fields.Datetime.now()
         })
 
-    def _fechar_log_historico(self, registro) -> None:
+    def _fechar_log_historico(self: Self, registro: FluxoBase) -> None:
 
         ultimo = self.env['fluxo.historico'].search([
             ('res_model', '=', registro._name),
